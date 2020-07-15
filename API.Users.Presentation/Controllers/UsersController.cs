@@ -34,7 +34,7 @@ namespace API.Users.Presentation.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<UserDTO>> Get()
         {
             return Ok(_applicationServiceUser.GetAll());
         }
@@ -49,9 +49,22 @@ namespace API.Users.Presentation.Controllers
         /// <returns></returns>
         /// <response code="200"></response>
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public ActionResult<UserDTO> Get(int id)
         {
-            return Ok(_applicationServiceUser.GetById(id));
+            try
+            {
+                var user = _applicationServiceUser.GetById(id);
+                if (user == null)
+                    return NotFound();
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // POST api/users

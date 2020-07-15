@@ -25,8 +25,19 @@ namespace API.Users.Presentation
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["SqlConnection:SqlConnectionString"];
-            services.AddDbContext<SqlContext>(options => options.UseSqlServer(connection));
+            //var connection = Configuration["SqlConnection:SqlConnectionString"];
+            //services.AddDbContext<SqlContext>(options => options.UseSqlServer(connection));
+            var server = Configuration["DBServer"] ?? "localhost";
+            var port = Configuration["DBPort"] ?? "1433";
+            var user = Configuration["DBUser"] ?? "SA";
+            var password = Configuration["SA_Password"] ?? "Pa$$w0rd2019";
+            var database = Configuration["Database"] ?? "user";
+
+            System.Console.WriteLine($"DB-Connection-String : Server={server},{port};Database={database};User Id={user};Password={password};");
+
+            services.AddDbContext<SqlContext>(options => options
+                .UseSqlServer($"Server={server},{port};Database={database};User Id={user};Password={password};"));
+
             services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
