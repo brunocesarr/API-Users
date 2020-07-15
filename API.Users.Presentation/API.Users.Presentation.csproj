@@ -15,5 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\API.Users.Infrastruture.CrossCutting.IOC\API.Users.Infrastructure.CrossCutting.IOC.csproj" />
   </ItemGroup>
-
 </Project>

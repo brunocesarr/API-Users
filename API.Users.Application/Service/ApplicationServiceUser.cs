@@ -20,8 +20,8 @@ namespace API.Users.Application.Service
 
         public void Add(UserDTO obj)
         {
-            var objCliente = _mapperUser.MapperToEntity(obj);
-            _serviceUser.Add(objCliente);
+            var objUsers = _mapperUser.MapperToEntity(obj);
+            _serviceUser.Add(objUsers);
         }
 
         public void Dispose()
@@ -31,26 +31,26 @@ namespace API.Users.Application.Service
 
         public IEnumerable<UserDTO> GetAll()
         {
-            var objProdutos = _serviceUser.GetAll();
-            return _mapperUser.MapperListClientes(objProdutos);
+            var objUsers = _serviceUser.GetAll();
+            return _mapperUser.MapperListClientes(objUsers);
         }
 
         public UserDTO GetById(int id)
         {
-            var objcliente = _serviceUser.GetById(id);
-            return _mapperUser.MapperToDTO(objcliente);
+            var objUsers = _serviceUser.GetById(id);
+            return _mapperUser.MapperToDTO(objUsers);
         }
 
         public void Remove(UserDTO obj)
         {
-            var objCliente = _mapperUser.MapperToEntity(obj);
-            _serviceUser.Remove(objCliente);
+            var objUsers = _mapperUser.MapperToEntity(obj);
+            _serviceUser.Remove(objUsers);
         }
 
         public void Update(UserDTO obj)
         {
-            var objCliente = _mapperUser.MapperToEntity(obj);
-            _serviceUser.Update(objCliente);
+            var objUsers = _mapperUser.MapperToEntity(obj);
+            _serviceUser.Update(objUsers);
         }
     }
 }
