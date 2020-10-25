@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using API.Users.Infrastructure.CrossCutting.IOC;
 using API.Users.Infrastructure.Data;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace API.Users.Presentation
 {
@@ -21,12 +22,15 @@ namespace API.Users.Presentation
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["SqlConnection:SqlConnectionString"];
-            services.AddDbContext<SqlContext>(options => options.UseSqlServer(connection));
+            services.AddHttpClient();
+
+            AddHttpClient(services);
+
+            var connectionString = Configuration.GetConnectionString("DB_CONNECTION");
+            services.AddDbContext<SqlContext>(options => options.UseSqlServer(connectionString));
+
             services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
@@ -85,5 +89,19 @@ namespace API.Users.Presentation
             Builder.RegisterModule(new ModuleIOC());
             #endregion
         }
+
+        #region private methods
+        private void AddHttpClient(IServiceCollection services)
+        {
+            services.AddHttpClient("github", c =>
+            {
+                c.BaseAddress = new Uri("https://api.github.com/");
+                // Github API versioning
+                c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+                // Github requires a user-agent
+                c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            });
+        }
+        #endregion
     }
 }
