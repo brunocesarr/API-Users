@@ -7,6 +7,10 @@ using API.Users.Domain.Services.Services;
 using API.Users.Infrastructure.CrossCutting.Adapter.Interfaces;
 using API.Users.Infrastructure.CrossCutting.Adapter.Map;
 using API.Users.Infrastructure.Repository.Repositorys;
+using API.Users.Domain.Services.Services.Github;
+using API.Users.Domain.Core.Interfaces.Services.Github;
+using API.Users.Infrastructure.CrossCutting.Adapter.Map.Github;
+using API.Users.Infrastructure.CrossCutting.Adapter.Interfaces.Github;
 
 namespace API.Users.Infrastructure.CrossCutting.IOC
 {
@@ -18,18 +22,21 @@ namespace API.Users.Infrastructure.CrossCutting.IOC
 
             #region IOC Application
             builder.RegisterType<ApplicationServiceUser>().As<IApplicationServiceUser>();
+            builder.RegisterType<ApplicationServiceGithub>().As<IApplicationServiceGithub>();
             #endregion
 
             #region IOC Services
             builder.RegisterType<ServiceUser>().As<IServiceUser>();
+            builder.RegisterType<ServiceGithub>().As<IServiceGithub>();
             #endregion
 
-            #region IOC Repositorys SQL
+            #region IOC Repositorys
             builder.RegisterType<RepositoryUser>().As<IRepositoryUser>();
             #endregion
 
             #region IOC Mapper
             builder.RegisterType<MapperUser>().As<IMapperUser>();
+            builder.RegisterType<MapperGithubProject>().As<IMapperGithubProject>();
             #endregion
 
             #endregion
