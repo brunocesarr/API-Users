@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using API.Users.Application.DTO.DTO;
 using API.Users.Application.Interfaces;
 using System.Collections;
+using System.Linq;
 
 namespace API.Users.Presentation.Controllers
 {
@@ -36,7 +35,12 @@ namespace API.Users.Presentation.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public ActionResult<IEnumerable<UserDTO>> Get()
         {
-            return Ok(_applicationServiceUser.GetAll());
+            var users = _applicationServiceUser.GetAll();
+
+            if (!users.Any())
+                return NoContent();
+
+            return Ok(users);
         }
 
         // GET api/users/{id}
@@ -56,8 +60,9 @@ namespace API.Users.Presentation.Controllers
             try
             {
                 var user = _applicationServiceUser.GetById(id);
+
                 if (user == null)
-                    return NotFound();
+                    return NoContent();
 
                 return Ok(user);
             }
@@ -73,10 +78,8 @@ namespace API.Users.Presentation.Controllers
         {
             try
             {
-                if (userDTO == null)
-                    return NotFound();
-
                 _applicationServiceUser.Add(userDTO);
+
                 return Ok("Cliente Cadastrado com sucesso!");
             }
             catch (Exception ex)
@@ -91,10 +94,8 @@ namespace API.Users.Presentation.Controllers
         {
             try
             {
-                if (userDTO == null)
-                    return NotFound();
-
                 _applicationServiceUser.Update(userDTO);
+
                 return Ok("Cliente Atualizado com sucesso!");
             }
             catch (Exception)
@@ -109,10 +110,8 @@ namespace API.Users.Presentation.Controllers
         {
             try
             {
-                if (userDTO == null)
-                    return NotFound();
-
                 _applicationServiceUser.Remove(userDTO);
+            
                 return Ok("Cliente Removido com sucesso!");
             }
             catch (Exception ex)

@@ -14,7 +14,7 @@ namespace API.Users.Domain.Models
         [Column("email")]
         public string Email { get; set; }
         [Column("created_at")]
-        public DateTime createdAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         [Column("active")]
         public bool Active { get; set; }
     }

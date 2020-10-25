@@ -13,6 +13,5 @@ namespace API.Users.Domain.Services.Services
         {
             _repositoryUser = RepositoryUser;
         }
-
     }
 }
